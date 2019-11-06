@@ -22,7 +22,7 @@ Auto-generated API Documentation is available on [SmartAPI](http://smart-api.inf
 ### Initializing the development environment
 
 After installing the prerequisites, simply run: `npm ci` or `npm install` to install all dependencies.
-Most of the commands necessary embedded in the [package.json](package.json) file in the scripts section.
+Most of the necessary commands are embedded in the [package.json](package.json) file in the scripts section.
 
 ## Some useful commands
 
