@@ -1,0 +1,17 @@
+description: A point in 3D space
+type: object
+required:
+  - x
+  - y
+  - z
+properties:
+  x:
+    type: number
+    format: float
+  y:
+    type: number
+    format: float
+  z:
+    type: number
+    format: float
+example: {'x': 19, 'y': 13, 'z': 7}

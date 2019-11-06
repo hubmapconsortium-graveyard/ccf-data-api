@@ -1,0 +1,458 @@
+openapi: 3.0.0
+servers:
+  - description: Mock Server
+    url: https://virtserver.swaggerhub.com/cns8/ccf/0.1.0
+info:
+  description: |
+    This API provides data for the CCF 
+    [RUI](https://github.com/hubmapconsortium/ccf-3d-registration) and 
+    [EUI](https://github.com/hubmapconsortium/ccf-ui)
+    [http://www.hubmap.org](http://www.hubmap.org)
+  version: '0.1.0'
+  title: CCF RUI/EUI API
+  termsOfService: 'http://www.hubmap.org'
+  contact:
+    email: apiteam@hubmap.org
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: Primary Search
+    description: Primary Search Routes
+  - name: Primary Lookup
+    description: Primary Lookup Routes
+  - name: Secondary
+    description: Secondary Routes
+paths:
+  /donors:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Donors
+      operationId: getDonors
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Donor'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /donors/{donor_id}:
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Donor
+      operationId: getDonor
+      parameters:
+        - name: donor_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Donor'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /procedures:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Procedures
+      operationId: getProcedures
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Procedure'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /procedures/{procedure_id}:
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Procedure
+      operationId: getProcedure
+      parameters:
+        - name: procedure_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Procedure'
+          links:
+            donor:
+              $ref: '#/components/links/GetDonorById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /samples:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Samples
+      operationId: getSamples
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sample'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /samples/{sample_id}:
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Sample
+      operationId: getSample
+      parameters:
+        - name: sample_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sample'
+          links:
+            donor:
+              $ref: '#/components/links/GetDonorById'
+            procedure:
+              $ref: '#/components/links/GetProcedureById'
+            superSample:
+              $ref: '#/components/links/GetSuperSampleById'
+            alignment:
+              $ref: '#/components/links/GetAlignmentById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /alignments:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Alignments
+      operationId: getAlignments
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alignment'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /alignments/{alignment_id}:
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Alignment
+      operationId: getAlignment
+      parameters:
+        - name: alignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alignment'
+          links:
+            referenceOrgan:
+              $ref: '#/components/links/GetReferenceOrganById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /reference_organs:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Reference Organs
+      operationId: getReferenceOrgans
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReferenceOrgan'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /reference_organs/{reference_organ_id}:
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Reference Organ
+      operationId: getReferenceOrgan
+      parameters:
+        - name: reference_organ_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferenceOrgan'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /images:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Images
+      operationId: getImages
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Image'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /images/{image_id}:
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Image
+      operationId: getImage
+      parameters:
+        - name: image_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          links:
+            sample:
+              $ref: '#/components/links/GetSampleById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /image-overlays:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Image Overlays
+      operationId: getImageOverlays
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageOverlay'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /image-overlays/{image_overlay_id}:
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Image Overlay
+      operationId: getImageOverlay
+      parameters:
+        - name: image_overlay_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageOverlay'
+          links:
+            image:
+              $ref: '#/components/links/GetImageById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /image-data/{image_id}:
+  #/image-data/{image_id}/tiles/{tile_technology}/{x}/{y}/{z}?format=png&size=256x256
+  #/image-data/{image_id}?format=png&size=1920x1080
+    get:
+      tags:
+        - Secondary
+      summary: Get Image
+      operationId: getImageData
+      parameters:
+        - name: image_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid image Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: Image not found
+
+components:
+  links:
+    GetDonorById:
+      operationId: getDonor
+      parameters:
+        donor_id: '$response.body#/donorId'
+    GetProcedureById:
+      operationId: getProcedure
+      parameters:
+        procedure_id: '$response.body#/procedureId'
+    GetSampleById:
+      operationId: getSample
+      parameters:
+        sample_id: '$response.body#/sampleId'
+    GetSuperSampleById:
+      operationId: getSample
+      parameters:
+        sample_id: '$response.body#/superSampleId'
+    GetAlignmentById:
+      operationId: getAlignment
+      parameters:
+        alignment_id: '$response.body#/alignmentId'
+    GetReferenceOrganById:
+      operationId: getReferenceOrgan
+      parameters:
+        reference_organ_id: '$response.body#/referenceOrganId'
+    GetImageById:
+      operationId: getImage
+      parameters:
+        reference_organ_id: '$response.body#/imageId'
+    GetImageOverlayById:
+      operationId: getImageOverlay
+      parameters:
+        reference_organ_id: '$response.body#/imageOverlayId'
+
+  schemas:
+    Donor:
+      $ref: './models/donor.yaml'
+    Procedure:
+      $ref: './models/procedure.yaml'
+    Sample:
+      $ref: './models/sample.yaml'
+    Alignment:
+      $ref: './models/alignment.yaml'
+    ReferenceOrgan:
+      $ref: './models/reference-organ.yaml'
+    Image:
+      $ref: './models/sample-image.yaml'
+    ImageOverlay:
+      $ref: './models/sample-image-overlay.yaml'
+    Point:
+      $ref: './models/point.yaml'

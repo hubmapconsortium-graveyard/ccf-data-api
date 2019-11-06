@@ -1,0 +1,1257 @@
+openapi: 3.0.0
+servers:
+  - description: Mock Server
+    url: 'https://virtserver.swaggerhub.com/cns8/ccf/0.1.0'
+info:
+  description: |
+    This API provides data for the CCF 
+    [RUI](https://github.com/hubmapconsortium/ccf-3d-registration) and 
+    [EUI](https://github.com/hubmapconsortium/ccf-ui)
+    [http://www.hubmap.org](http://www.hubmap.org)
+  version: 0.1.0
+  title: CCF RUI/EUI API
+  termsOfService: 'http://www.hubmap.org'
+  contact:
+    email: apiteam@hubmap.org
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+tags:
+  - name: Primary Search
+    description: Primary Search Routes
+  - name: Primary Lookup
+    description: Primary Lookup Routes
+  - name: Secondary
+    description: Secondary Routes
+paths:
+  /donors:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Donors
+      operationId: getDonors
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Donor'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  '/donors/{donor_id}':
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Donor
+      operationId: getDonor
+      parameters:
+        - name: donor_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Donor'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /procedures:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Procedures
+      operationId: getProcedures
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Procedure'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  '/procedures/{procedure_id}':
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Procedure
+      operationId: getProcedure
+      parameters:
+        - name: procedure_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Procedure'
+          links:
+            donor:
+              $ref: '#/components/links/GetDonorById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /samples:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Samples
+      operationId: getSamples
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Sample'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  '/samples/{sample_id}':
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Sample
+      operationId: getSample
+      parameters:
+        - name: sample_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Sample'
+          links:
+            donor:
+              $ref: '#/components/links/GetDonorById'
+            procedure:
+              $ref: '#/components/links/GetProcedureById'
+            superSample:
+              $ref: '#/components/links/GetSuperSampleById'
+            alignment:
+              $ref: '#/components/links/GetAlignmentById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /alignments:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Alignments
+      operationId: getAlignments
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Alignment'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  '/alignments/{alignment_id}':
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Alignment
+      operationId: getAlignment
+      parameters:
+        - name: alignment_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Alignment'
+          links:
+            referenceOrgan:
+              $ref: '#/components/links/GetReferenceOrganById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /reference_organs:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Reference Organs
+      operationId: getReferenceOrgans
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ReferenceOrgan'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  '/reference_organs/{reference_organ_id}':
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Reference Organ
+      operationId: getReferenceOrgan
+      parameters:
+        - name: reference_organ_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReferenceOrgan'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /images:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Images
+      operationId: getImages
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Image'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  '/images/{image_id}':
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Image
+      operationId: getImage
+      parameters:
+        - name: image_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Image'
+          links:
+            sample:
+              $ref: '#/components/links/GetSampleById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  /image-overlays:
+    get:
+      tags:
+        - Primary Search
+      summary: Get Image Overlays
+      operationId: getImageOverlays
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ImageOverlay'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  '/image-overlays/{image_overlay_id}':
+    get:
+      tags:
+        - Primary Lookup
+      summary: Get Image Overlay
+      operationId: getImageOverlay
+      parameters:
+        - name: image_overlay_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImageOverlay'
+          links:
+            image:
+              $ref: '#/components/links/GetImageById'
+        '400':
+          description: Invalid Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: not found
+  '/image-data/{image_id}':
+    get:
+      tags:
+        - Secondary
+      summary: Get Image
+      operationId: getImageData
+      parameters:
+        - name: image_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: successful operation
+          content:
+            image/jpeg:
+              schema:
+                type: string
+                format: binary
+        '400':
+          description: Invalid image Id
+        '401':
+          description: User is not authorized to look for entities
+        '404':
+          description: Image not found
+components:
+  links:
+    GetDonorById:
+      operationId: getDonor
+      parameters:
+        donor_id: '$response.body#/donorId'
+    GetProcedureById:
+      operationId: getProcedure
+      parameters:
+        procedure_id: '$response.body#/procedureId'
+    GetSampleById:
+      operationId: getSample
+      parameters:
+        sample_id: '$response.body#/sampleId'
+    GetSuperSampleById:
+      operationId: getSample
+      parameters:
+        sample_id: '$response.body#/superSampleId'
+    GetAlignmentById:
+      operationId: getAlignment
+      parameters:
+        alignment_id: '$response.body#/alignmentId'
+    GetReferenceOrganById:
+      operationId: getReferenceOrgan
+      parameters:
+        reference_organ_id: '$response.body#/referenceOrganId'
+    GetImageById:
+      operationId: getImage
+      parameters:
+        reference_organ_id: '$response.body#/imageId'
+    GetImageOverlayById:
+      operationId: getImageOverlay
+      parameters:
+        reference_organ_id: '$response.body#/imageOverlayId'
+  schemas:
+    Donor:
+      description: >-
+        Since very little data is guaranteed to be the same for a particular
+        donor across multiple clinical visits, we take the approach that the
+        donor is described only by an anonymized identifier (donor_id). All
+        other metadata for the donor is included in one of the metadata tables
+        described below and there is no “donor metadata” table.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Unique donor id (anonymized)
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+    Procedure:
+      description: >-
+        The procedure metadata describes the procedure or clinical visit that
+        produced the sample from a donor identified as donor_id. A “procedure”
+        produces a single “physical sample”. Note that a donor can have multiple
+        procedures, due to either multiple samples taken in a single visit or
+        samples taken during separate visits. The metadata for the donor can
+        vary from procedure to procedure. For example, a donor can have samples
+        taken on different dates and therefore have different donor ages
+        associated with the different samples.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Unique procedure id
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        donor_id:
+          description: Unique donor id (anonymized)
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        provider:
+          description: Name of organization that was source of sample
+          type: string
+          example: TMC-Vanderbilt
+        procedure_date_time:
+          description: Date sample obtained
+          type: string
+          format: date-time
+          example: '2009-06-15T13:45:30'
+        age:
+          description: Donor age (in years) when sample obtained
+          type: integer
+          format: int32
+          minimum: 0
+          maximum: 150
+          example: 39
+        sex:
+          description: 'Donor sex when sample obtained Note: Not “gender”'
+          type: string
+          enum:
+            - male
+            - female
+            - other
+            - unknown
+          example: female
+        ethnicity:
+          description: >
+            Race or ethnicity, terms should be compatible with NIH guidance in
+
+            [NOT-OD-15-089](https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html)
+          type: string
+          enum:
+            - American Indian or Alaska Native
+            - Asian
+            - Black or African American
+            - Hispanic or Latino
+            - Native Hawaiian or Other Pacific Islander
+            - White
+          example: Asian
+        height:
+          description: Donor height (in centimeters) when sample obtained
+          type: number
+          format: float
+          example: 155.448
+        weight:
+          description: Donor weight (in kilograms) when sample obtained
+          type: number
+          format: float
+          example: 117.934
+        bmi:
+          description: |
+            Body mass index (in kg/m²) when sample obtained
+            (can be calculated from the height and body weight)
+          type: number
+          format: float
+          example: 37.3
+        comorbidities:
+          description: >
+            Comorbidities, and/or clinical indications and/or donor status 
+
+            when sample obtained. Terms should be chosen from suitable
+            bio-ontologies.
+          type: array
+          items:
+            type: string
+          example:
+            - 'Obesity, type II diabetes'
+        notes:
+          description: |
+            Free text comments. This field can contain information that doesn’t 
+            fit in other fields, comments, notes, exceptions etc.
+          type: string
+          example: This donor was part of the XX-YYY study.
+    Sample:
+      description: >-
+        The sample metadata describes a sample taken from a donor and also
+        describes any subsequent subsamples. For the initial sample, there will
+        be a procedure_id value. For subsamples, the procedure_id will be empty
+        and the supersample will be referenced by its sample_id in the field
+        super_sample_id field. (We need input from the TMCs and IEC on how they
+        will be tracking sample - subsample relationships.)  The sample_id and
+        super_sample_id relationship can proceed down an arbitrary number of
+        levels. Samples can be referenced to a landmark such as a fiduciary
+        mark, to a clinically observable abnormality or the reference point
+        (usually the [0,0,0] point) in a reference image. In the case of a
+        reference image, fiduciary marks can be included in the image as well as
+        coarser descriptions based on regions of the organ. For example;
+        “capsule”, “cortex” or simply “upper” or “posterior”.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Unique sample id
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        donor_id:
+          description: Unique donor id (anonymized)
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        procedure_id:
+          description: Unique procedure id
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        super_sample_id:
+          description: |
+            ID of the parent sample if this sample is a subsample.
+            Empty if this is an initial sample.
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        operator_orcid:
+          description: ID for operator that obtained the sample
+          type: string
+          example: 'https://orcid.org/0000-0002-1825-0097'
+        alignment_id:
+          description: >
+            ID of alignment information, if the sample has been placed using the
+            RUI
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        type_of_procedure:
+          description: |
+            Ontology term for the original clinical protocol, else 
+            “subsample” if this is a sample derived from another sample.
+          type: string
+          example: Total Nephrectomy
+        indication_for_procedure:
+          description: Why the procedure was carried out
+          type: string
+          example: Renal tumor
+        laterality:
+          description: |
+            For bilateral organs such as the kidneys or lungs. 
+            Empty for other organs such as heart.
+          type: string
+          enum:
+            - left
+            - right
+            - not applicable
+            - unknown
+          example: left
+        clinical_image:
+          description: |
+            Photo of the entire clinical sample prior to dissection.
+            May be a photo of a resected organ or an image 
+            (x-ray, uCT, etc.) of the image in situ. Should be a URL to an 
+            image suitable for display in a web browser (PNG, JPEG, GIF, etc).
+          type: string
+          format: url
+          example: >-
+            https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+        tissue_type:
+          description: Tissue or organ name as text or ontological term
+          type: string
+          example: kidney
+        sample_processing:
+          description: Sample handling and processing
+          type: string
+          example: Frozen
+        method_of_freezing:
+          description: Method used to freeze the sample
+          type: string
+          example: Dry Ice/Isopentane Slurry
+        embedding_media:
+          description: Embedding media used
+          type: string
+          example: CMC
+        sample_acquired_date_time:
+          description: Date sample collected
+          type: string
+          format: date-time
+          example: '2009-06-15T13:45:30'
+        sectioning_date_time:
+          description: Date sample sectioned
+          type: string
+          format: date-time
+          example: '2009-06-15T13:45:30'
+        notes:
+          description: |
+            Free text comments. This field can contain information that doesn’t 
+            fit in other fields, comments, notes, exceptions etc.
+          type: string
+          example: This donor was part of the XX-YYY study.
+    Alignment:
+      description: >-
+        Alignment metadata defines how the physical sample or section is
+        oriented relative to a reference 3D organ model. In general, this data
+        is generated by the Registration User Interface (RUI). We assume that
+        the reference objects are scaled to 1 unit = 1 millimeter. A reference
+        object file with a maximum dimension of 100 is assumed to mean the
+        maximum size is 100mm.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: UUID for each registration
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        alignment_operator_orcid:
+          description: ORCID of the person that did the alignment
+          type: string
+          example: 'https://orcid.org/0000-0002-1825-0097'
+        alignment_date_time:
+          description: Date and time the alignment was done
+          type: string
+          format: date-time
+          example: '2009-06-15T13:45:30'
+        reference_organ_id:
+          description: ID of the reference organ the sample was placed in
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        organ_object_size:
+          description: 'Dimensions (in millimeters) of entire organ, if available.'
+          allOf:
+            - description: Dimensions when orientation is unknown
+              type: object
+              properties:
+                L:
+                  description: Length (lateral-medial axis)
+                  type: number
+                  format: float
+                W:
+                  description: Width (anterior-posterior axis)
+                  type: number
+                  format: float
+                H:
+                  description: Height (superior (head)-inferior (foot) axis)
+                  type: number
+                  format: float
+              example:
+                L: 19
+                W: 13
+                H: 7
+            - description: Dimensions when orientation is known
+              type: object
+              properties:
+                LM:
+                  description: Length (lateral-medial axis)
+                  type: number
+                  format: float
+                AP:
+                  description: Width (anterior-posterior axis)
+                  type: number
+                  format: float
+                SI:
+                  description: Height (superior (head)-inferior (foot) axis)
+                  type: number
+                  format: float
+              example:
+                LM: 19
+                AP: 13
+                SI: 7
+        sample_position_center:
+          description: >
+            Sample’s center of volume position in the same coordinates as the
+            reference object.
+
+            Float, x,y,z list of coordinates.
+          allOf:
+            - $ref: '#/components/schemas/Point'
+        sample_object_rotation:
+          description: >-
+            Rotations of the sample object. Rotations must be done in the order
+            given:
+
+            x-rotation, y-rotation, z-rotation. Floating point numbers must be
+            in degrees.
+          allOf:
+            - $ref: '#/components/schemas/Point'
+        sample_object_dimensions:
+          description: >-
+            Dimensions of final sample. In the same units as the reference
+            object. 
+
+            Float, x,y,z list of distances. These are the dimensions of the
+            square 
+
+            prism selection region and not coordinates of the alignment. 
+
+            Units are in millimeters.
+          allOf:
+            - $ref: '#/components/schemas/Point'
+        bounding_box_vertex_coordinates:
+          description: >-
+            List of (x,y,z) coordinates for the vertices of the selection box.
+            These 
+
+            are after any rotations or translations and are generated directly
+            from 
+
+            the alignment UI. In the same units as the reference object and
+            therefore 
+
+            are in mm. Note: This data is preferred to giving the box’s
+            dimensions, 
+
+            offsets and rotations.
+
+            Float, x,y,z list of list of vertex locations. For a rectangular
+            prism
+
+            there are 8 vertex locations. Note that if the image is pixel based
+            the
+
+            vertex positions do not necessarily fall on image lattice points.
+          type: array
+          items:
+            $ref: '#/components/schemas/Point'
+        bounding_shape:
+          description: >-
+            Shape of the selection box. Either a rectangular region (rectangular
+            prism)
+
+            or a cylindrical region for a needle biopsy.
+          type: string
+          enum:
+            - rectangular
+            - cylindrical
+          example: rectangular
+        alignment_screenshot:
+          description: >-
+            Screenshot of the alignment interface showing both the reference
+            organ and
+
+            the final positioning of the selection region. This is needed for
+
+            downstream validation. Should be a URL to an 
+
+            image suitable for display in a web browser (PNG, JPEG, GIF, etc).
+          type: string
+          format: url
+          example: >-
+            https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+        base_section_plane:
+          description: >-
+            The coordinates of the face of the selection region (typically a
+            rectangular
+
+            region) that is the first section that will be taken. Subsequent
+            sections
+
+            will move from this face. For example, the rectangle highlighted in
+            red in
+
+            the image below. Float, x,y,z list of vertex locations. For a
+            rectangular
+
+            region there are 4 vertices.
+          type: array
+          items:
+            $ref: '#/components/schemas/Point'
+        reference_vertices:
+          description: >-
+            The coordinates of the three corners of the selection region used as
+            a 
+
+            “dog ear” corner. This corner is used for subsequent alignment of
+            the 
+
+            sample when it is analyzed or further sectioned. Float, x,y,z list
+            of vertex
+
+            locations. There are 3 vertices.
+          type: array
+          items:
+            $ref: '#/components/schemas/Point'
+        notes:
+          description: |
+            Free text comments. This field can contain information that doesn’t 
+            fit in other fields, comments, notes, exceptions etc.
+          type: string
+          example: This donor was part of the XX-YYY study.
+    ReferenceOrgan:
+      description: >-
+        The Reference Organ Metadata table describes the 3D models used as
+        reference organs. These models are used by both the RUI and EUI. We
+        specify the reference organs as annotated 3D OBJ files. Long term, this
+        specification may need to be extended if we reach the point where a
+        reference organ is derived from the donor supplying the sample. The OBJ
+        files have internal units of centimeters, and an origin ([0,0,0] point)
+        at the center of volume. The OBJ file’s y-axis if the body’s vertical
+        axis, x-axis the body’s left/right axis and the z-axis is the body’s
+        front/back axis.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Unique ID for this reference organ
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          description: Name of the organ
+          type: string
+          example: kidney
+        laterality:
+          description: |
+            For bilateral organs such as the kidneys or lungs. 
+            Empty for other organs such as heart.
+          type: string
+          enum:
+            - left
+            - right
+            - not applicable
+            - unknown
+          example: left
+        donor_sex:
+          description: 'Donor sex when sample obtained Note: Not “gender”'
+          type: string
+          enum:
+            - male
+            - female
+            - other
+            - unknown
+          example: female
+        donor_height:
+          description: Donor height (in centimeters) when sample obtained
+          type: number
+          format: float
+          example: 155.448
+        donor_weight:
+          description: Donor weight (in kilograms) when sample obtained
+          type: number
+          format: float
+          example: 117.934
+        image_path:
+          description: Path and filename for the 3D obj file.
+          type: string
+          format: url
+          example: 'https://example.com/file.obj'
+        creation_date_time:
+          description: Date the reference organ was created and deposited
+          type: string
+          format: date-time
+          example: '2009-06-15T13:45:30'
+        creator_orcid:
+          description: ID for the person who created the reference organ
+          type: string
+          example: 'https://orcid.org/0000-0002-1825-0097'
+        notes:
+          description: |
+            Free text comments. This field can contain information that doesn’t 
+            fit in other fields, comments, notes, exceptions etc.
+          type: string
+          example: >-
+            This reference was annotated as described in Jones et al., PNAS,
+            2017.
+        image_offset:
+          description: >-
+            Offsets needed to place the (0,0,0) point in the OBJ file into the
+            outline (possibly a 3D outline) of a body. The OBJ files (0,0,0)
+            point is at its center of volume. These offsets are normalized to
+            the donor’s height and refer to a lean individual. The reference
+            dimension is the body height, which is taken as 1. The left/right
+            and front/back displacements are of the same scale, and are relative
+            to the central median plane and central coronal plane, therefore the
+            y and z offsets can be positive or negative. (The x offset is always
+            >0 and less than or equal to 1.
+
+
+            Offsets needed to place the (0,0,0) point in the OBJ file into the
+            outline of a body. These are unitless.
+
+
+            Vertical position: normalized 0=heal, 1=top of head. Triple of
+            floats, unitless, in the order: vertical displacement, left/right
+            displacement, front/back displacement.
+
+
+            A left kidney would be at approximately: 0.64,-0.056,-0.039. A right
+            kidney would be at approximately: 0.64,0.056,-0.039.
+          allOf:
+            - $ref: '#/components/schemas/Point'
+        image_scaling:
+          description: >-
+            This value is the multiplier used to convert 1 unit in the OBJ file
+            into 1 millimeter. However, we assume all reference organ object
+            files are already scaled to 1 unit = 1 cm. Float,
+            millimeter/(unitless OBJ file unit)
+          type: number
+          format: float
+          example: 1
+    Image:
+      description: >-
+        Image metadata describes the characteristics of a particular image. In
+        some cases, we may have consecutive images/objects that have different
+        scaling and/or offsets. For example, the mass spec data may have a
+        resolution of several microns/pixels but be related to an adjacent
+        section, imaged via birefringence, that has 0.5 micron/pixel resolution,
+        and the MS data might have an x,y offset.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Unique ID for this image
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        sample_id:
+          description: ID of sample that this image is derived from
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        operator_orcid:
+          description: ORCID id of operator
+          type: string
+          example: 'https://orcid.org/0000-0002-1825-0097'
+        technology_short_name:
+          description: >
+            Short name for the technology used to generate and/or process this
+            image
+          type: string
+          example: IHC
+        technology_long_name:
+          description: >
+            Long name for the technology used to generate and/or process this
+            image
+          type: string
+          example: Immunohistochem
+        source_url:
+          description: Path to this image
+          type: string
+          format: url
+          example: >-
+            https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+        tile_type:
+          description: >-
+            When an image has been tiled for viewing, what tile type was used:
+            deep-zoom or pyramid (google maps)
+          type: string
+          enum:
+            - deep-zoom
+            - pyramid
+          example: deep-zoom
+        tile_url:
+          description: URL to access this image as a set of tiles for viewing
+          type: string
+          format: url
+        pixels_per_millimeter:
+          description: Image scaling (pixels/millimeter or voxels/millimeter)
+          type: number
+          format: float
+          example: 123.45
+        microscopy_dimensions:
+          description: 'How many dimensions in the image? (2D, 3D, or 2D Motion)'
+          type: string
+          enum:
+            - 2D
+            - 3D
+            - 2D Motion
+          example: 2D
+        microscopy_time_channel:
+          description: >-
+            Which channel is the time axis? “None”, “Z” (time is the z
+            coordinate)
+          type: string
+          example: Z
+        microscopy_resolution:
+          description: >
+            If resolution is the same in all directions then only this is
+            needed.
+
+            (millimeter/pixel)
+          type: number
+          format: float
+          example: 0.5
+        microscopy_resolution_x:
+          description: |
+            Only needed if resolution changes among the axes. (millimeter/pixel)
+          type: number
+          format: float
+          example: 0.5
+        microscopy_resolution_y:
+          description: |
+            Only needed if resolution changes among the axes. (millimeter/pixel)
+          type: number
+          format: float
+          example: 0.5
+        microscopy_resolution_z:
+          description: >
+            Only needed if resolution changes among the axes and the image is
+            3D. (millimeter/pixel)
+          type: number
+          format: float
+          example: 0.5
+        notes:
+          description: |
+            Free text comments. This field can contain information that doesn’t 
+            fit in other fields, comments, notes, exceptions etc.
+          type: string
+          example: >-
+            This image was taken the day after the microscope was repaired and
+            recalibrated.
+        reference_image:
+          description: |
+            UUID of a reference image that is logically related to this image.
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        image_offset:
+          description: >
+            The offset that needs to be applied to this image. Integer double of
+            (x,y) offset that when applied to the coordinates of this image
+            aligns it with the reference image.
+          type: array
+          items:
+            type: integer
+          minItems: 2
+          maxItems: 2
+        thumbnail_url:
+          description: Path to thumbnail image
+          type: string
+          format: url
+          example: >-
+            https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+        thumbnail_resolution:
+          description: >
+            Resolution of the thumbnail image (typically different than the
+            resolution of the full image) (millimeter/pixel)
+          type: number
+          format: float
+          example: 10
+        image_channel_assignment_set_id:
+          description: ID for a set of channel annotations for this image.
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        image_channel_assignment_set:
+          description: >-
+            An image may have multiple channels (typically red, green and blue
+            but other designations are possible). Often the channel represents a
+            particular biological entity such as a stained protein in
+            immunohistochem, or a nuclear stain. A color channel assignment
+            differs from an “image region (overlay)” in that it contains
+            continuous quantitative data instead of categorical data.
+          type: array
+          items:
+            type: object
+            properties:
+              channel_name:
+                description: >
+                  Channel label in the image. Typically “red”, “green” or “blue”
+                  but other labels possible. May be integers.
+                type: string
+                example: red
+              definition:
+                description: >
+                  Channel’s interpretation as a URL/URI to an ontology term.
+
+
+                  URI, chosen from a bioontology. This ontological reference is
+                  the source of the “label” text in the ro.
+                type: string
+                format: url
+                example: 'http://purl.org/sig/ont/fma/fma15581'
+              label:
+                description: >
+                  Channel’s interpretation. Text name or label for the ontology
+                  term (image_channel_assignment_set::definition) for display.
+                type: string
+                example: cortex of kidney
+    ImageOverlay:
+      description: >-
+        Image region metadata describes annotations of an image. An image may
+        have multiple image region annotations and regions may overlap. Note
+        that the image parameters of an overlay (e.g., height, width) must match
+        the reference image. This is a one (image) to many (overlays)
+        relationships. A particular overlay can contain multiple regions but all
+        regions must have the same annotation. This data is intrinsically
+        categorical, a region can only be yes/no.
+      type: object
+      required:
+        - id
+      properties:
+        id:
+          description: Unique ID for this overlay
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        image_id:
+          description: ID for the image that this overlay is associated with
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        label:
+          description: |
+            Text or name from ontology used to ID overlay in UI
+          type: string
+          example: 'Renal Capsule, dorsal'
+        overlay_url:
+          description: Path to overlay image
+          type: string
+          format: url
+          example: >-
+            https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+        anatomical_locations:
+          description: >
+            Derived from locations in the reference image. A list of ontological
+            term names.
+          type: array
+          items:
+            type: string
+          example:
+            - 'Nephron, cortex'
+        notes:
+          description: |
+            Free text comments. This field can contain information that doesn’t 
+            fit in other fields, comments, notes, exceptions etc.
+          type: string
+          example: >-
+            This reference was annotated as described in Jones et al., PNAS,
+            2017.
+        anatomical_landmarks:
+          description: >-
+            The reference image is also a “landmark” or can contain multiple
+            “landmarks”
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                description: |
+                  Anatomical landmark human-readable name
+                type: string
+              type:
+                description: Fiduciary or Clinical Observations
+                type: string
+                enum:
+                  - fiduciary
+                  - clinical
+                example: fiduciary
+              distance:
+                description: >-
+                  Distance (in millimeters) from landmark to center of volume of
+                  sample. These can be generated manually during tissue
+                  registration or anytime after the registration process. As new
+                  annotations of the reference organ become available additional
+                  landmarks can be added to previously registered sample.
+                type: number
+                format: float
+              notes:
+                description: >
+                  Free text comments. This field can contain information that
+                  doesn’t 
+
+                  fit in other fields, comments, notes, exceptions etc.
+                type: string
+                example: This donor was part of the XX-YYY study.
+    Point:
+      description: A point in 3D space
+      type: object
+      required:
+        - x
+        - 'y'
+        - z
+      properties:
+        x:
+          type: number
+          format: float
+        'y':
+          type: number
+          format: float
+        z:
+          type: number
+          format: float
+      example:
+        x: 19
+        'y': 13
+        z: 7

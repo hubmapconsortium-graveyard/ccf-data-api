@@ -1,0 +1,154 @@
+description: |-
+  Image metadata describes the characteristics of a particular image. In some cases, we may have consecutive images/objects that have different scaling and/or offsets. For example, the mass spec data may have a resolution of several microns/pixels but be related to an adjacent section, imaged via birefringence, that has 0.5 micron/pixel resolution, and the MS data might have an x,y offset.
+type: object
+required:
+  - id
+properties:
+  id:
+    description: Unique ID for this image
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  sample_id:
+    description: ID of sample that this image is derived from
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  operator_orcid:
+    description: ORCID id of operator
+    type: string
+    example: 'https://orcid.org/0000-0002-1825-0097'
+  technology_short_name:
+    description: |
+      Short name for the technology used to generate and/or process this image
+    # need an enumerated list of the technologies and their abbreviations
+    type: string
+    example: IHC
+  technology_long_name:
+    description: |
+      Long name for the technology used to generate and/or process this image
+    type: string
+    example: Immunohistochem
+  source_url:
+    description: Path to this image
+    type: string
+    format: url
+    example: https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+  tile_type:
+    description: |-
+      When an image has been tiled for viewing, what tile type was used: deep-zoom or pyramid (google maps)
+    type: string
+    enum:
+      - deep-zoom
+      - pyramid
+    example: deep-zoom
+  tile_url:
+    description: |-
+      URL to access this image as a set of tiles for viewing
+    type: string
+    format: url
+  pixels_per_millimeter:
+    description: Image scaling (pixels/millimeter or voxels/millimeter)
+    type: number
+    format: float
+    example: 123.45
+  microscopy_dimensions:
+    description: How many dimensions in the image? (2D, 3D, or 2D Motion)
+    type: string
+    enum:
+      - 2D
+      - 3D
+      - 2D Motion
+    example: 2D
+  microscopy_time_channel:
+    description: Which channel is the time axis? “None”, “Z” (time is the z coordinate)
+    type: string
+    example: Z
+  microscopy_resolution:
+    description: |
+      If resolution is the same in all directions then only this is needed.
+      (millimeter/pixel)
+    type: number
+    format: float
+    example: 0.5
+  microscopy_resolution_x:
+    description: |
+      Only needed if resolution changes among the axes. (millimeter/pixel)
+    type: number
+    format: float
+    example: 0.5
+  microscopy_resolution_y:
+    description: |
+      Only needed if resolution changes among the axes. (millimeter/pixel)
+    type: number
+    format: float
+    example: 0.5
+  microscopy_resolution_z:
+    description: |
+      Only needed if resolution changes among the axes and the image is 3D. (millimeter/pixel)
+    type: number
+    format: float
+    example: 0.5
+  notes:
+    description: |
+      Free text comments. This field can contain information that doesn’t 
+      fit in other fields, comments, notes, exceptions etc.
+    type: string
+    example: This image was taken the day after the microscope was repaired and recalibrated.
+  # Special case of sequential images that have different scaling and/or offsets. This is for the particular case where an image set has both a standard microscopy image (e.g., a histology image) and an associated coarser grained image such as a mass spec data set. These fields provide the data needed to align and overlay the two images. The reference_image is assumed to be the correct scaling and this image must be scaled and/or translated to align it using the fields below. The scaling for this image (the one that needs scaling and/or offsetting) is defined in the normal image scale values (microscopy_resolution_[X,Y,Z]) listed above, which may be different from the microscopy_resolution value for the reference image. In most cases these fields will be empty. 
+  reference_image:
+    description: |
+      UUID of a reference image that is logically related to this image.
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  image_offset:
+    description: |
+      The offset that needs to be applied to this image. Integer double of (x,y) offset that when applied to the coordinates of this image aligns it with the reference image.
+    type: array
+    items:
+      type: integer
+    minItems: 2
+    maxItems: 2
+  thumbnail_url:
+    description: Path to thumbnail image
+    type: string
+    format: url
+    example: https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+  thumbnail_resolution:
+    description: |
+      Resolution of the thumbnail image (typically different than the resolution of the full image) (millimeter/pixel)
+    type: number
+    format: float
+    example: 10.0
+  image_channel_assignment_set_id:
+    description: |-
+      ID for a set of channel annotations for this image.
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  image_channel_assignment_set:
+    description: |-
+      An image may have multiple channels (typically red, green and blue but other designations are possible). Often the channel represents a particular biological entity such as a stained protein in immunohistochem, or a nuclear stain. A color channel assignment differs from an “image region (overlay)” in that it contains continuous quantitative data instead of categorical data.
+    type: array
+    items:
+      type: object
+      properties:
+        channel_name:
+          description: |
+            Channel label in the image. Typically “red”, “green” or “blue” but other labels possible. May be integers.
+          type: string
+          example: red
+        definition:
+          description: |
+            Channel’s interpretation as a URL/URI to an ontology term.
+            
+            URI, chosen from a bioontology. This ontological reference is the source of the “label” text in the ro.
+          type: string
+          format: url
+          example: http://purl.org/sig/ont/fma/fma15581
+        label:
+          description: |
+            Channel’s interpretation. Text name or label for the ontology term (image_channel_assignment_set::definition) for display.
+          type: string
+          example: cortex of kidney

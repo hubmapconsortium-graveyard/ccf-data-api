@@ -1,0 +1,100 @@
+description: |-
+  The sample metadata describes a sample taken from a donor and also describes any subsequent subsamples. For the initial sample, there will be a procedure_id value. For subsamples, the procedure_id will be empty and the supersample will be referenced by its sample_id in the field super_sample_id field. (We need input from the TMCs and IEC on how they will be tracking sample - subsample relationships.)  The sample_id and super_sample_id relationship can proceed down an arbitrary number of levels. Samples can be referenced to a landmark such as a fiduciary mark, to a clinically observable abnormality or the reference point (usually the [0,0,0] point) in a reference image. In the case of a reference image, fiduciary marks can be included in the image as well as coarser descriptions based on regions of the organ. For example; “capsule”, “cortex” or simply “upper” or “posterior”.
+type: object
+required:
+  - id
+properties:
+  id:
+    description: Unique sample id
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  donor_id:
+    description: Unique donor id (anonymized)
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  procedure_id:
+    description: Unique procedure id
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  super_sample_id:
+    description: |
+      ID of the parent sample if this sample is a subsample.
+      Empty if this is an initial sample.
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  operator_orcid:
+    description: ID for operator that obtained the sample
+    type: string
+    example: 'https://orcid.org/0000-0002-1825-0097'
+  alignment_id:
+    description: |
+      ID of alignment information, if the sample has been placed using the RUI
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  type_of_procedure:
+    description: |
+      Ontology term for the original clinical protocol, else 
+      “subsample” if this is a sample derived from another sample.
+    type: string
+    example: Total Nephrectomy
+  indication_for_procedure:
+    description: Why the procedure was carried out
+    type: string
+    example: Renal tumor
+  laterality:
+    description: |
+      For bilateral organs such as the kidneys or lungs. 
+      Empty for other organs such as heart.
+    type: string
+    enum:
+      - left
+      - right
+      - not applicable
+      - unknown
+    example: left
+  clinical_image:
+    description: |
+      Photo of the entire clinical sample prior to dissection.
+      May be a photo of a resected organ or an image 
+      (x-ray, uCT, etc.) of the image in situ. Should be a URL to an 
+      image suitable for display in a web browser (PNG, JPEG, GIF, etc).
+    type: string
+    format: url
+    example: https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+  tissue_type:
+    description: Tissue or organ name as text or ontological term
+    type: string
+    example: kidney
+  sample_processing:
+    description: Sample handling and processing
+    type: string
+    example: Frozen
+  method_of_freezing:
+    description: Method used to freeze the sample
+    type: string
+    example: Dry Ice/Isopentane Slurry
+  embedding_media:
+    description: Embedding media used
+    type: string
+    example: CMC
+  sample_acquired_date_time:
+    description: Date sample collected
+    type: string
+    format: date-time
+    example: '2009-06-15T13:45:30'
+  sectioning_date_time:
+    description: Date sample sectioned
+    type: string
+    format: date-time
+    example: '2009-06-15T13:45:30'
+  notes:
+    description: |
+      Free text comments. This field can contain information that doesn’t 
+      fit in other fields, comments, notes, exceptions etc.
+    type: string
+    example: This donor was part of the XX-YYY study.

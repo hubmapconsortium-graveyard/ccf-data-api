@@ -1,0 +1,86 @@
+description: |-
+  The procedure metadata describes the procedure or clinical visit that produced the sample from a donor identified as donor_id. A “procedure” produces a single “physical sample”. Note that a donor can have multiple procedures, due to either multiple samples taken in a single visit or samples taken during separate visits. The metadata for the donor can vary from procedure to procedure. For example, a donor can have samples taken on different dates and therefore have different donor ages associated with the different samples.
+type: object
+required:
+  - id
+properties:
+  id:
+    description: Unique procedure id
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  donor_id:
+    description: Unique donor id (anonymized)
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  provider:
+    description: Name of organization that was source of sample
+    type: string
+    example: TMC-Vanderbilt
+  procedure_date_time:
+    description: Date sample obtained
+    type: string
+    format: date-time
+    example: '2009-06-15T13:45:30'
+  age:
+    description: Donor age (in years) when sample obtained
+    type: integer
+    format: int32
+    minimum: 0
+    maximum: 150
+    example: 39
+  sex:
+    description: 'Donor sex when sample obtained Note: Not “gender”'
+    type: string
+    enum:
+      - male
+      - female
+      - other
+      - unknown
+    example: female
+  ethnicity:
+    description: |
+      Race or ethnicity, terms should be compatible with NIH guidance in
+      [NOT-OD-15-089](https://grants.nih.gov/grants/guide/notice-files/not-od-15-089.html)
+    type: string
+    enum:
+      - American Indian or Alaska Native
+      - Asian
+      - Black or African American
+      - Hispanic or Latino
+      - Native Hawaiian or Other Pacific Islander
+      - White
+    example: Asian
+  height:
+    description: Donor height (in centimeters) when sample obtained
+    type: number
+    format: float
+    example: 155.448
+  weight:
+    description: Donor weight (in kilograms) when sample obtained
+    type: number
+    format: float
+    example: 117.934
+  bmi:
+    description: |
+      Body mass index (in kg/m²) when sample obtained
+      (can be calculated from the height and body weight)
+    type: number
+    format: float
+    example: 37.3
+  comorbidities:
+    description: |
+      Comorbidities, and/or clinical indications and/or donor status 
+      when sample obtained. Terms should be chosen from suitable bio-ontologies.
+    type: array
+    items:
+      type: string
+    example:
+      - Obesity, type II diabetes
+  notes:
+    description: |
+      Free text comments. This field can contain information that doesn’t 
+      fit in other fields, comments, notes, exceptions etc.
+    type: string
+    example: This donor was part of the XX-YYY study.

@@ -1,0 +1,69 @@
+description: |-
+  Image region metadata describes annotations of an image. An image may have multiple image region annotations and regions may overlap. Note that the image parameters of an overlay (e.g., height, width) must match the reference image. This is a one (image) to many (overlays) relationships. A particular overlay can contain multiple regions but all regions must have the same annotation. This data is intrinsically categorical, a region can only be yes/no.
+type: object
+required:
+  - id
+properties:
+  id:
+    description: Unique ID for this overlay
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  image_id:
+    description: ID for the image that this overlay is associated with
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  label:
+    description: |
+      Text or name from ontology used to ID overlay in UI
+    type: string
+    example: Renal Capsule, dorsal
+  overlay_url:
+    description: Path to overlay image
+    type: string
+    format: url
+    example: https://i.kym-cdn.com/entries/icons/original/000/005/608/nyan-cat-01-625x450.jpg
+  anatomical_locations:
+    description: |
+      Derived from locations in the reference image. A list of ontological term names.
+    type: array
+    items:
+      type: string
+    example:
+      - Nephron, cortex
+  notes:
+    description: |
+      Free text comments. This field can contain information that doesn’t 
+      fit in other fields, comments, notes, exceptions etc.
+    type: string
+    example: This reference was annotated as described in Jones et al., PNAS, 2017.
+  anatomical_landmarks:
+    description: |-
+      The reference image is also a “landmark” or can contain multiple “landmarks”
+    type: array
+    items:
+      type: object
+      properties:
+        name:
+          description: |
+            Anatomical landmark human-readable name
+          type: string
+        type:
+          description: Fiduciary or Clinical Observations
+          type: string
+          enum:
+            - fiduciary
+            - clinical
+          example: fiduciary
+        distance:
+          description: |-
+            Distance (in millimeters) from landmark to center of volume of sample. These can be generated manually during tissue registration or anytime after the registration process. As new annotations of the reference organ become available additional landmarks can be added to previously registered sample.
+          type: number
+          format: float
+        notes:
+          description: |
+            Free text comments. This field can contain information that doesn’t 
+            fit in other fields, comments, notes, exceptions etc.
+          type: string
+          example: This donor was part of the XX-YYY study.

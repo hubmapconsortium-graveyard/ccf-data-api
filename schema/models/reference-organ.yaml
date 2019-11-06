@@ -1,0 +1,83 @@
+description: |-
+  The Reference Organ Metadata table describes the 3D models used as reference organs. These models are used by both the RUI and EUI. We specify the reference organs as annotated 3D OBJ files. Long term, this specification may need to be extended if we reach the point where a reference organ is derived from the donor supplying the sample. The OBJ files have internal units of centimeters, and an origin ([0,0,0] point) at the center of volume. The OBJ file’s y-axis if the body’s vertical axis, x-axis the body’s left/right axis and the z-axis is the body’s front/back axis.
+type: object
+required:
+  - id
+properties:
+  id:
+    description: Unique ID for this reference organ
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
+  name:
+    description: Name of the organ
+    type: string
+    example: kidney
+  laterality:
+    description: |
+      For bilateral organs such as the kidneys or lungs. 
+      Empty for other organs such as heart.
+    type: string
+    enum:
+      - left
+      - right
+      - not applicable
+      - unknown
+    example: left
+  donor_sex:
+    description: 'Donor sex when sample obtained Note: Not “gender”'
+    type: string
+    enum:
+      - male
+      - female
+      - other
+      - unknown
+    example: female
+  donor_height:
+    description: Donor height (in centimeters) when sample obtained
+    type: number
+    format: float
+    example: 155.448
+  donor_weight:
+    description: Donor weight (in kilograms) when sample obtained
+    type: number
+    format: float
+    example: 117.934
+  image_path:
+    description: Path and filename for the 3D obj file.
+    type: string
+    format: url
+    example: 'https://example.com/file.obj'
+  creation_date_time:
+    description: Date the reference organ was created and deposited
+    type: string
+    format: date-time
+    example: '2009-06-15T13:45:30'
+  creator_orcid:
+    description: ID for the person who created the reference organ
+    type: string
+    example: 'https://orcid.org/0000-0002-1825-0097'
+  notes:
+    description: |
+      Free text comments. This field can contain information that doesn’t 
+      fit in other fields, comments, notes, exceptions etc.
+    type: string
+    example: This reference was annotated as described in Jones et al., PNAS, 2017.
+  image_offset:
+    description: |-
+      Offsets needed to place the (0,0,0) point in the OBJ file into the outline (possibly a 3D outline) of a body. The OBJ files (0,0,0) point is at its center of volume. These offsets are normalized to the donor’s height and refer to a lean individual. The reference dimension is the body height, which is taken as 1. The left/right and front/back displacements are of the same scale, and are relative to the central median plane and central coronal plane, therefore the y and z offsets can be positive or negative. (The x offset is always >0 and less than or equal to 1.
+      
+      Offsets needed to place the (0,0,0) point in the OBJ file into the outline of a body. These are unitless.
+      
+      Vertical position: normalized 0=heal, 1=top of head. Triple of floats, unitless, in the order: vertical displacement, left/right displacement, front/back displacement.
+      
+      A left kidney would be at approximately: 0.64,-0.056,-0.039. A right kidney would be at approximately: 0.64,0.056,-0.039.
+    allOf:
+      - $ref: './point.yaml'
+  image_scaling:
+    description: |-
+      This value is the multiplier used to convert 1 unit in the OBJ file into 1 millimeter. However, we assume all reference organ object files are already scaled to 1 unit = 1 cm. Float, millimeter/(unitless OBJ file unit)
+    type: number
+    format: float
+    example: 1.0
+  # In the EUI, navigation down into subregions of a particular organ requires a partonomy. A partonomy is a nested listed of objects described using hasPart and partOf relationships. MC-IU will create suitable partonomies for each organ in the EUI based on the ontology suggested by the organ experts of the TMCs. We will extract a partonomy from the recommended tissue ontology and maintain that as an OWL ontology. For importing into the EUI, the OWL file will be converted to a json file giving the partOf tree.

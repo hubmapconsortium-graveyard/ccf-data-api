@@ -1,0 +1,11 @@
+description: |-
+  Since very little data is guaranteed to be the same for a particular donor across multiple clinical visits, we take the approach that the donor is described only by an anonymized identifier (donor_id). All other metadata for the donor is included in one of the metadata tables described below and there is no “donor metadata” table.
+type: object
+required:
+  - id
+properties:
+  id:
+    description: Unique donor id (anonymized)
+    type: string
+    format: uuid
+    example: d290f1ee-6c54-4b01-90e6-d701748f0851
