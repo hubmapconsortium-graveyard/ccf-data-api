@@ -1,6 +1,18 @@
 # CCF API and Specification
 
+[![GitHub last commit](https://img.shields.io/github/last-commit/hubmapconsortium/ccf-api/master.svg)](https://github.com/hubmapconsortium/ccf-api/commits/master)
+[![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
+[![View Documentation](https://img.shields.io/badge/documentation-online-brightgreen.svg)](http://smart-api.info/ui/d1f33c1a75e9dcda984194e4d8cea7d8)
+
 A specificaton and set of web service calls to return information about CCF-mapped data
+
+## Specification
+
+The original specification this API is based off of is available on [Google Docs](https://docs.google.com/document/d/1Qgx4mNutE1V3CfQ7y8Lg3rxQy5nhiOSKCSv5MJkPRMc/edit?usp=sharing)
+
+## Documentation
+
+Auto-generated API Documentation is available on [SmartAPI](http://smart-api.info/ui/d1f33c1a75e9dcda984194e4d8cea7d8).
 
 ## Development Requirements
 
@@ -9,8 +21,8 @@ A specificaton and set of web service calls to return information about CCF-mapp
 
 ### Initializing the development environment
 
-After installing the prerequisites, simply run: `npm ci` or `npm instal` to install all dependencies.
-Most of the commands necessary embedded in the <package.json> file in the scripts section.
+After installing the prerequisites, simply run: `npm ci` or `npm install` to install all dependencies.
+Most of the commands necessary embedded in the [package.json](package.json) file in the scripts section.
 
 ## Some useful commands
 
