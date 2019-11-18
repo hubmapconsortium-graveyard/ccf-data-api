@@ -1,8 +1,8 @@
-# CCF API and Specification
+# CCF Data API and Specification
 
 [![GitHub last commit](https://img.shields.io/github/last-commit/hubmapconsortium/ccf-api/master.svg)](https://github.com/hubmapconsortium/ccf-api/commits/master)
 [![license](https://img.shields.io/github/license/mashape/apistatus.svg)](LICENSE)
-[![View Documentation](https://img.shields.io/badge/documentation-online-brightgreen.svg)](http://smart-api.info/ui/d1f33c1a75e9dcda984194e4d8cea7d8)
+[![View Documentation](https://img.shields.io/badge/documentation-online-brightgreen.svg)](http://ccf-api.smart-api.info/ui/d1f33c1a75e9dcda984194e4d8cea7d8)
 
 A specificaton and set of web service calls to return information about CCF-mapped data
 
@@ -12,7 +12,7 @@ The original specification this API is based off of is available on [Google Docs
 
 ## Documentation
 
-Auto-generated API Documentation is available on [SmartAPI](http://smart-api.info/ui/d1f33c1a75e9dcda984194e4d8cea7d8).
+Auto-generated API Documentation is available on [SmartAPI](http://ccf-api.smart-api.info/ui/d1f33c1a75e9dcda984194e4d8cea7d8).
 
 ## Development Requirements
 
