@@ -1,3 +1,5 @@
+## 💥 *Deprecated and archived* 💥
+
 # CCF Data API and Specification
 
 [![GitHub last commit](https://img.shields.io/github/last-commit/hubmapconsortium/ccf-api/master.svg)](https://github.com/hubmapconsortium/ccf-api/commits/master)
